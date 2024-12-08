@@ -283,7 +283,7 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
       } else {
         const size_t color_index = random_uint32() % this->colors_.size();
         const AddressableRandomTwinkleEffectColor &color_components = this->colors_[color_index];
-        color = ((color_components.b << 2) | (color_components.g << 1) | color_components.r) & 0b111;
+        color = ((color_components.r << 2) | (color_components.g << 1) | color_components.b);
       }
 
       it[pos].set_effect_data(0b1000 | color);
