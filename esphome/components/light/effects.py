@@ -468,10 +468,9 @@ async def addressable_twinkle_effect_to_code(config, effect_id):
             CONF_COLORS, default=[]
         ): cv.ensure_list(
             {
-                cv.Optional(CONF_RED, default=1.0): cv.percentage,
-                cv.Optional(CONF_GREEN, default=1.0): cv.percentage,
-                cv.Optional(CONF_BLUE, default=1.0): cv.percentage,
-                cv.Optional(CONF_WHITE, default=1.0): cv.percentage
+                cv.Optional(CONF_RED, default=true): cv.boolean,
+                cv.Optional(CONF_GREEN, default=true): cv.boolean,
+                cv.Optional(CONF_BLUE, default=true): cv.boolean,
             }
         ),
         cv.Optional(CONF_TWINKLE_PROBABILITY, default="5%"): cv.percentage,
