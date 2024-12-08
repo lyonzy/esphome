@@ -277,16 +277,16 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
       if (it[pos].get_effect_data() != 0)
         continue;
 
-      Color color;
+      uint8_t color;
       if (this->colors_.size() == 0) {
-        color = Color::random_color();
+        color = random_uint32() & 0b111;
       } else {
         const size_t color_index = random_uint32() % this->colors_.size();
         const AddressableRandomTwinkleEffectColor &color_components = this->colors_[color_index];
-        color = Color(color_components.r, color_components.g, color_components.b, color_components.w);
+        color = Color(color_components.r, color_components.g, color_components.b, color_components.w).raw;
       }
 
-      it[pos].set(color);
+      it[pos].set_effect_data(0b1000 | color);
     }
     it.schedule_show();
   }
