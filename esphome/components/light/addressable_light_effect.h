@@ -277,7 +277,7 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
       if (it[pos].get_effect_data() != 0)
         continue;
 
-      const uint8_t color;
+      uint8_t color;
       if (this->colors_.size() == 0) {
         color = random_uint32() & 0b111;
       } else {
