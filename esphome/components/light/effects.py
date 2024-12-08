@@ -463,6 +463,16 @@ async def addressable_twinkle_effect_to_code(config, effect_id):
     AddressableRandomTwinkleEffect,
     "Random Twinkle",
     {
+        cv.Optional(
+            CONF_COLORS, default=[]
+        ): cv.ensure_list(
+            {
+                cv.Optional(CONF_RED, default=1.0): cv.percentage,
+                cv.Optional(CONF_GREEN, default=1.0): cv.percentage,
+                cv.Optional(CONF_BLUE, default=1.0): cv.percentage,
+                cv.Optional(CONF_WHITE, default=1.0): cv.percentage
+            }
+        ),
         cv.Optional(CONF_TWINKLE_PROBABILITY, default="5%"): cv.percentage,
         cv.Optional(
             CONF_PROGRESS_INTERVAL, default="32ms"
@@ -473,6 +483,18 @@ async def addressable_random_twinkle_effect_to_code(config, effect_id):
     var = cg.new_Pvariable(effect_id, config[CONF_NAME])
     cg.add(var.set_twinkle_probability(config[CONF_TWINKLE_PROBABILITY]))
     cg.add(var.set_progress_interval(config[CONF_PROGRESS_INTERVAL]))
+    colors = []
+    for color in config.get(CONF_COLORS, []):
+        colors.append(
+            cg.StructInitializer(
+                AddressableRandomTwinkleEffectColor,
+                ("r", int(round(color[CONF_RED] * 255))),
+                ("g", int(round(color[CONF_GREEN] * 255))),
+                ("b", int(round(color[CONF_BLUE] * 255))),
+                ("w", int(round(color[CONF_WHITE] * 255)))
+            )
+        )
+    cg.add(var.set_colors(colors))
     return var
 
 

@@ -235,9 +235,15 @@ class AddressableTwinkleEffect : public AddressableLightEffect {
   uint32_t last_progress_{0};
 };
 
+
+struct AddressableRandomTwinkleEffectColor {
+  uint8_t r, g, b, w;
+};
+
 class AddressableRandomTwinkleEffect : public AddressableLightEffect {
  public:
   explicit AddressableRandomTwinkleEffect(const std::string &name) : AddressableLightEffect(name) {}
+  void set_colors(const std::vector<AddressableRandomTwinkleEffectColor> &colors) { this->colors_ = colors; }
   void apply(AddressableLight &it, const Color &current_color) override {
     const uint32_t now = millis();
     uint8_t pos_add = 0;
@@ -270,7 +276,15 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
       const size_t pos = random_uint32() % it.size();
       if (it[pos].get_effect_data() != 0)
         continue;
-      const uint8_t color = random_uint32() & 0b111;
+
+      const uint8_t color;
+      if (this.colors_.size() == 0) {
+        color = random_uint32() & 0b111;
+      } else {
+        const size_t color_index = random_uint32() % this.colors_.size();
+        color = this.colors_[color_index];
+      }
+
       it[pos].set_effect_data(0b1000 | color);
     }
     it.schedule_show();
@@ -279,6 +293,7 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
   void set_progress_interval(uint32_t progress_interval) { this->progress_interval_ = progress_interval; }
 
  protected:
+  std::vector<AddressableRandomTwinkleEffectColor> colors_;
   float twinkle_probability_{};
   uint32_t progress_interval_{};
   uint32_t last_progress_{0};
