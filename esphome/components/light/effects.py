@@ -489,10 +489,9 @@ async def addressable_random_twinkle_effect_to_code(config, effect_id):
         colors.append(
             cg.StructInitializer(
                 AddressableRandomTwinkleEffectColor,
-                ("r", int(round(color[CONF_RED] * 255))),
-                ("g", int(round(color[CONF_GREEN] * 255))),
-                ("b", int(round(color[CONF_BLUE] * 255))),
-                ("w", int(round(color[CONF_WHITE] * 255)))
+                ("r", color[CONF_RED]),
+                ("g", color[CONF_GREEN]),
+                ("b", color[CONF_BLUE]),
             )
         )
     cg.add(var.set_colors(colors))

@@ -237,7 +237,7 @@ class AddressableTwinkleEffect : public AddressableLightEffect {
 
 
 struct AddressableRandomTwinkleEffectColor {
-  uint8_t r, g, b, w;
+  bool r, g, b;
 };
 
 class AddressableRandomTwinkleEffect : public AddressableLightEffect {
@@ -283,8 +283,7 @@ class AddressableRandomTwinkleEffect : public AddressableLightEffect {
       } else {
         const size_t color_index = random_uint32() % this->colors_.size();
         const AddressableRandomTwinkleEffectColor &color_components = this->colors_[color_index];
-        Color esp_color = Color(color_components.r, color_components.g, color_components.b, color_components.w);
-        color = esp_color.raw_32 & 0b111;
+        uint8_t color = ((color_components.b << 2) | (color_components.g << 1) | color_components.r) & 0b111;
       }
 
       it[pos].set_effect_data(0b1000 | color);
