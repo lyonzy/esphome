@@ -42,6 +42,7 @@ from .types import (
     AddressableLightRef,
     AddressableRainbowLightEffect,
     AddressableRandomTwinkleEffect,
+    AddressableRandomTwinkleEffectColor,
     AddressableScanEffect,
     AddressableTwinkleEffect,
     AutomationLightEffect,
